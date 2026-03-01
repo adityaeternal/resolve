@@ -98,3 +98,39 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     include("jacoco/testDebugUnitTest.exec")
   })
 }
+
+// ── JaCoCo coverage verification (minimum thresholds) ────────────────────
+
+tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+  dependsOn("testDebugUnitTest")
+
+  val debugTree = fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug") {
+    exclude(
+      "**/R.class", "**/R\$*.class", "**/BuildConfig.class",
+      // Exclude Android components that are difficult to unit-test.
+      "**/*Activity*", "**/*Service*", "**/*Application*",
+    )
+  }
+
+  classDirectories.setFrom(files(debugTree))
+  executionData.setFrom(fileTree(layout.buildDirectory) {
+    include("jacoco/testDebugUnitTest.exec")
+  })
+
+  violationRules {
+    rule {
+      limit {
+        counter = "LINE"
+        value = "COVEREDRATIO"
+        minimum = "0.20".toBigDecimal()
+      }
+    }
+    rule {
+      limit {
+        counter = "BRANCH"
+        value = "COVEREDRATIO"
+        minimum = "0.15".toBigDecimal()
+      }
+    }
+  }
+}
