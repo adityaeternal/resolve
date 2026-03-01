@@ -38,6 +38,10 @@ android {
 
   testOptions {
     unitTests.isReturnDefaultValues = true
+    unitTests.all {
+      it.maxHeapSize = "2048m"
+      it.jvmArgs("-XX:+UseG1GC")
+    }
   }
 
   kotlinOptions {
