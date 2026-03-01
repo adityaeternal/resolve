@@ -14,7 +14,7 @@ android {
     minSdk = 28  // Raised to 28 (Android 9) for EncryptedSharedPreferences support.
     targetSdk = 35
     versionCode = 1
-    versionName = "0.1.0"
+    versionName = "1.0.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -38,6 +38,7 @@ android {
 
   testOptions {
     unitTests.isReturnDefaultValues = true
+    unitTests.isIncludeAndroidResources = true
     unitTests.all {
       it.maxHeapSize = "2048m"
       it.jvmArgs("-XX:+UseG1GC")
@@ -75,6 +76,7 @@ dependencies {
   testImplementation("io.mockk:mockk:1.13.16")
   testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
   testImplementation("org.json:json:20231013")
+  testImplementation("org.robolectric:robolectric:4.14.1")
 }
 
 // ── JaCoCo coverage reporting ───────────────────────────────────────────
@@ -122,14 +124,14 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
       limit {
         counter = "LINE"
         value = "COVEREDRATIO"
-        minimum = "0.20".toBigDecimal()
+        minimum = "0.35".toBigDecimal()
       }
     }
     rule {
       limit {
         counter = "BRANCH"
         value = "COVEREDRATIO"
-        minimum = "0.15".toBigDecimal()
+        minimum = "0.25".toBigDecimal()
       }
     }
   }
