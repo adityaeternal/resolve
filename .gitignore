@@ -17,6 +17,9 @@ android-companion/app/release
 *.iml
 .vscode
 
+# Coverage
+coverage/
+
 # Claude Code
 .claude/*
 !.claude/rules/
